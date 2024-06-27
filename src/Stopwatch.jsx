@@ -2,39 +2,39 @@ import React, {useState, useEffect, useRef} from 'react';
 
 function Stopwatch() {
 
-    const [isRunning, setIsRunning] = useState(false);
-    const [elapsedTime, setElapsedTime] = useState(0);
-    const intervalIdRef = useRef(null);
-    const startTimeRef = useRef(0);
+    const [isRunning, setIsRunning] = useState(false); //state variable to check if stopwatch is running
+    const [elapsedTime, setElapsedTime] = useState(0); //state variable to keep track of elapsed time
+    const intervalIdRef = useRef(null); //interval id
+    const startTimeRef = useRef(0); //start time reference
 
-    useEffect(() => {
+    useEffect(() => { //useEffect hook used to run some code/sidecode (function) if anything in the array dependency is altered. So if isRunning is altered, run code.
         if(isRunning) {
             intervalIdRef.current = setInterval(() => {
-                setElapsedTime(Date.now() - startTimeRef.current);
+                setElapsedTime(Date.now() - startTimeRef.current); //sets the elapsed time.
             }, 10);
         }
 
         return () => {
-            clearInterval(intervalIdRef.current);
+            clearInterval(intervalIdRef.current); //cleaner function
         }
 
     }, [isRunning]);
 
-    function start() {
+    function start() { //function used to start the stopwatch
         setIsRunning(true);
         startTimeRef.current = Date.now() - elapsedTime;
     }
 
-    function stop() {
+    function stop() { //function used to stop the stopwatch
         setIsRunning(false);
     }
 
-    function reset() {
+    function reset() { //function used to reset the stopwatch
         setElapsedTime(0);
         setIsRunning(false);
     }
 
-    function formatTime() {
+    function formatTime() { //function used to format the milliseconds of elapsed time into hours, minutes, seconds, and milliseconds.
 
         let hours = Math.floor(elapsedTime / (1000 * 60 * 60));
         let minutes = Math.floor(elapsedTime / (1000 * 60) % 60);
@@ -60,4 +60,4 @@ function Stopwatch() {
         </div>
     );
 }
-export default Stopwatch;
+export default Stopwatch; //export this component, we will import it in App.jsx
